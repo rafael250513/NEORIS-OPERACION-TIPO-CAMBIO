@@ -1,0 +1,14 @@
+version: '2'
+services:
+  postgres:
+    image: 'oracle:latest'
+    restart: always
+    volumes:
+      - './oracle_data:/var/lib/oracle/data'
+    environment:
+      - ORACLE_USER=U_NEORIS_OPERACION
+      - ORACLE_PASSWORD=admin$123
+    ports:
+      - '5432:5432'
+    
+    ## docker-compose up -d

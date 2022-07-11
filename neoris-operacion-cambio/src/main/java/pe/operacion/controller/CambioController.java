@@ -29,7 +29,7 @@ public class CambioController  {
     @Autowired
     private CambioService cambioService;
 
-    //@PreAuthorize("@restAuthServiceImpl.hasAccess('admin')")
+    @PreAuthorize("@restAuthServiceImpl.hasAccess('admin')")
     @PostMapping(path = "/Registrar",consumes= MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE )
     public org.springframework.http.ResponseEntity<ResultClassEntity> registrar(@RequestBody Map<String, Object> body) {
         logger.info("CambioController - Registrar", "Registrar cambio");
