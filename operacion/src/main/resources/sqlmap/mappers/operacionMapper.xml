@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.operacion.repo.OperacionMapper">
+
+    <parameterMap id="insertParameter" type="OperacionEntity">
+        <parameter property="idOperacion" jdbcType="NUMERIC" mode="IN"  />
+        <parameter property="monto" jdbcType="NUMERIC" mode="IN"  />
+        <parameter property="tipoCambio" jdbcType="VARCHAR" mode="IN"  />
+        <parameter property="idOperacionOut" jdbcType="NUMERIC" mode="OUT"  />
+    </parameterMap>
+
+    <insert id="insertOperacion" parameterMap="insertParameter" statementType="CALLABLE">
+        { CALL U_NEORIS_OPERACION.NEO_PKG_OPER.NEO_SP_INSERT_OPERACION(?,?,?,?) }
+    </insert>
+
+    <!-- **************** LISTAR POR TIPO*********************** -->
+
+    <resultMap id="listResultTipo" type="OperacionDto">
+        <result column="idOperacion" property="idOperacion"/>
+        <result column="montoInicial" property="montoInicial"/>
+        <result column="tipoCambio" property="tipoCambio"/>
+        <result column="montoFinal" property="montoFinal"/>
+        <result column="valorCambio" property="valorCambio"/>
+    </resultMap>
+
+    <parameterMap id="listParameterTipo" type="OperacionEntity">
+        <parameter property="tipoCambio" jdbcType="VARCHAR" mode="IN"  />
+        <parameter property="listaOperacion" jdbcType="CURSOR" mode="OUT" resultMap="listResultTipo"/>
+    </parameterMap>
+
+    <select id="listarPorTipo" parameterMap="listParameterTipo" statementType="CALLABLE">
+            { CALL U_NEORIS_OPERACION.NEO_PKG_OPER.NEO_SP_SELECT_OPERACION_POR_TIPO(?,?) }
+    </select>
+
+    <!-- **************** LISTAR *********************** -->
+
+    <resultMap id="listResult" type="OperacionDto">
+        <result column="idOperacion" property="idOperacion"/>
+        <result column="montoInicial" property="montoInicial"/>
+        <result column="tipoCambio" property="tipoCambio"/>
+        <result column="montoFinal" property="montoFinal"/>
+        <result column="valorCambio" property="valorCambio"/>
+    </resultMap>
+
+    <parameterMap id="listParameter" type="OperacionEntity">
+        <parameter property="idOperacion" jdbcType="NUMERIC" mode="IN"  />
+        <parameter property="listaOperacion" jdbcType="CURSOR" mode="OUT" resultMap="listResult"/>
+    </parameterMap>
+
+    <select id="listar" parameterMap="listParameter" statementType="CALLABLE">
+        { CALL U_NEORIS_OPERACION.NEO_PKG_OPER.NEO_SP_SELECT_OPERACION(?,?) }
+    </select>
+
+
+    <!-- **************** ELIMINAR *********************** -->
+
+    <parameterMap id="deleteParameter" type="OperacionEntity">
+        <parameter property="idOperacion" jdbcType="NUMERIC" mode="IN"  />
+        <parameter property="idUsuario" jdbcType="NUMERIC" mode="IN"  />
+    </parameterMap>
+
+    <update id="deleteOperacion" parameterMap="deleteParameter" statementType="CALLABLE">
+        { CALL U_NEORIS_OPERACION.NEO_PKG_OPER.DEN_SP_UPDATE_OPERACION(?,?) }
+    </update>
+
+</mapper>
